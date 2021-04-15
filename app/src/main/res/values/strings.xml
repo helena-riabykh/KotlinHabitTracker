@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">KotlinHabitTracker</string>
+    <string name="habit_name">Enter habits name</string>
+    <string name="habit_description">Enter habits description</string>
+    <string name="habit_priority">Priority</string>
+    <string name="habit_type">Type</string>
+    <string name="habit_useful">Useful</string>
+    <string name="habit_harmful">Harmful</string>
+    <string name="number_runs">Number of runs</string>
+    <string name="frequency">Frequency of execution</string>
+    <string name="button_ready">READY</string>
+    <string-array name="spinnerValues">
+        <item>paramount</item>
+        <item>secondary</item>
+        <item>minor</item>
+    </string-array>
+</resources>
