@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
  * Created by Anton on 15.03.2021.
  */
 class HabitAdapter(
-    private val habitList: MutableList<Habit>
+    private val habitList: ArrayList<Habit>
 ) : RecyclerView.Adapter<ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
