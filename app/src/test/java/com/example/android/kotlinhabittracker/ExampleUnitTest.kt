@@ -5,13 +5,43 @@ import org.junit.Test
 import org.junit.Assert.*
 
 /**
- * Example local unit test, which will execute on the development machine (host).
- *
- * See [testing documentation](http://d.android.com/tools/testing).
+ * "aaabbbbccb"
+ * a:3
+ * b:5
+ * c:2
  */
 class ExampleUnitTest {
+
+    private fun item_count(str: String) {
+        val ch1 = str.toCharArray()
+        ch1.sort()
+        val hashMap = mutableMapOf<Char, Int>()
+        var count = 1
+        var index = 0
+        while (index < ch1.size - 1) {
+            if (ch1[index] == ch1[index + 1]) {
+                count++
+                index++
+                if (index == ch1.size - 1) hashMap.put(ch1[index], count)
+            } else {
+                hashMap.put(ch1[index], count)
+                count = 1
+                index++
+                if (index == ch1.size - 1) {
+                    hashMap.put(ch1[index ], count)
+                }
+            }
+        }
+        for ((key, value) in hashMap) {
+            println(" $key: $value")
+        }
+    }
+
     @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+    fun main() {
+        item_count("aaababb")
     }
 }
+
+
+//println("Sorted array: ${ch1.contentToString()}")

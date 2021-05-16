@@ -11,6 +11,7 @@ import kotlinx.android.synthetic.main.card_view.view.*
 class ViewHolder(
     override val containerView: View
 ) : RecyclerView.ViewHolder(containerView), LayoutContainer {
+
     fun bind(habit: Habit) {
         containerView.habit_name.text = habit.name
         containerView.habit_description.text = habit.description

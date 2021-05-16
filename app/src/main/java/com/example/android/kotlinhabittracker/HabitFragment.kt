@@ -1,5 +1,6 @@
 package com.example.android.kotlinhabittracker
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ private const val HABIT_EXTRA = "habit"
 private const val POSIT_EXTRA = "0"
 
 class HabitFragment : Fragment() {
+    private var activity: MainActivity? = null
 
     companion object {
         @JvmStatic
@@ -25,6 +27,13 @@ class HabitFragment : Fragment() {
         }
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is MainActivity){
+            activity = context
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -35,7 +44,6 @@ class HabitFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_habit, container, false)
         val button = view.findViewById<Button>(R.id.button_ready)
-
         button.setOnClickListener {
             val name = editName.text.toString()
             val description = editDescription.text.toString()
@@ -44,17 +52,33 @@ class HabitFragment : Fragment() {
                 if (R.id.radio_useful == radioGroup.checkedRadioButtonId) "Useful" else "Harmful"
             val numberOfRuns = numberOfRuns.text.toString()
             val frequencyOfExecution = frequencyOfExecution.text.toString()
+            //               uid = habit.getUid();
             val habit =
                 Habit(
                     name, description, priority, type,
                     numberOfRuns, frequencyOfExecution
                 )
-            val recyclerFragment = RecyclerFragment.newInstance(habit)
-            requireActivity().supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.fragment_container, recyclerFragment)
-                .commit()
+            activity?.notify(habit)
+//            var recyclerFragment: RecyclerFragment?
+//            recyclerFragment = if (habit.type == "Useful") {
+//                RecyclerFragment.newInstance(true, habit)
+////                activity?.adapter2.
+//            }else{
+//                RecyclerFragment.newInstance(false, habit)
+//            }
+//            recyclerFragment.apply {
+//                arguments = Bundle().apply {
+//                    putParcelable(HABIT_OBJECT, habit)
+//                }
+//            }
+//            requireActivity().onBackPressed()
+            activity?.onBackPressed()
+//            val manager: FragmentManager = childFragmentManager
+//            manager
         }
         return view
     }
 }
+
+
+

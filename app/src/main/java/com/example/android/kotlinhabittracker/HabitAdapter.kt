@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 class HabitAdapter(
     private val habitList: ArrayList<Habit>
 ) : RecyclerView.Adapter<ViewHolder>() {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return ViewHolder(inflater.inflate(R.layout.card_view, parent, false) as CardView)

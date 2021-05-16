@@ -1,47 +1,50 @@
 package com.example.android.kotlinhabittracker
 
+import android.content.Context
 import android.os.Bundle
+import android.os.Parcel
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_recycler.*
-import java.util.*
-import kotlin.collections.ArrayList
 
-private const val ARG_PARAM1 = "isUseful"
-private const val HABIT_ARRAY = "habitArray"
-private const val HABIT_OBJECT = "habitObject"
+const val IS_USEFUL = "isUseful"
 
-class RecyclerFragment : Fragment() {
+class RecyclerFragment() : Fragment() {
+    private var result: ArrayList<Habit> = arrayListOf()
+    private lateinit var adapter: HabitAdapter
 
     companion object {
-        var mHabitList: ArrayList<Habit> = arrayListOf()
-        var adapter: HabitAdapter? = HabitAdapter(mHabitList)
-
         @JvmStatic
         fun newInstance(isUseful: Boolean) =
             RecyclerFragment().apply {
                 arguments = Bundle().apply {
-                    putBoolean(ARG_PARAM1, isUseful)
+                    putBoolean(IS_USEFUL, isUseful)
                 }
             }
+    }
 
-        @JvmStatic
-        fun newInstance(habit: Habit) =
-            RecyclerFragment().apply {
-                arguments = Bundle().apply {
-                    putParcelable(HABIT_OBJECT, habit)
-                }
-            }
+    fun update(newHabit: Habit) {
+        result.add(newHabit)
+        adapter.notifyDataSetChanged()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is MainActivity) {
+            context.addFragment(this)
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState != null) {
-            mHabitList = savedInstanceState.getParcelableArrayList(HABIT_ARRAY)!!
+            result = savedInstanceState.getParcelableArrayList("result")!!
         }
+        adapter = HabitAdapter(result)
     }
 
     override fun onCreateView(
@@ -53,28 +56,22 @@ class RecyclerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(context)
-        if (savedInstanceState == null) {
-            arguments?.let {
-                val habit = it.getParcelable<Habit>(HABIT_OBJECT)
-                if (habit != null) {
-                    mHabitList.add(habit)
-                    adapter?.notifyDataSetChanged()
-                }
-            }
-        }
+        recyclerView.adapter = adapter
+        adapter.notifyDataSetChanged()
+
         float_button.setOnClickListener {
             val habitFragment = HabitFragment()
-            requireActivity().supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.fragment_container, habitFragment)
-                .commit()
+            activity?.supportFragmentManager
+                ?.beginTransaction()
+                ?.replace(R.id.container, habitFragment)
+                ?.addToBackStack(null)
+                ?.commit()
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        outState.apply { putParcelableArrayList(HABIT_ARRAY, mHabitList) }
+    override fun onSaveInstanceState(saveInstanceState: Bundle) {
+        super.onSaveInstanceState(saveInstanceState)
+        saveInstanceState.putParcelableArrayList("result", result)
     }
 }
-
