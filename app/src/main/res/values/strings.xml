@@ -9,6 +9,11 @@
     <string name="number_runs">Number of runs</string>
     <string name="frequency">Frequency of execution</string>
     <string name="button_ready">READY</string>
+    <string name="nav_screen">Home screen</string>
+    <string name="nav_info">About application</string>
+    <string name="user_name">helena.ryabyh@gmail.com </string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
     <string-array name="spinnerValues">
         <item>paramount</item>
         <item>secondary</item>

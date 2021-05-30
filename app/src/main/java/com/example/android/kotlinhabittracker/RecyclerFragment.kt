@@ -25,6 +25,10 @@ class RecyclerFragment() : Fragment() {
                     putBoolean(IS_USEFUL, isUseful)
                 }
             }
+
+//        fun newInstance(): RecyclerFragment {
+//           return RecyclerFragment()
+//        }
     }
 
     fun update(newHabit: Habit) {

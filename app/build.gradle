@@ -50,6 +50,10 @@ dependencies {
     implementation 'org.mockito:mockito-core:1.9.5:javadoc'
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'android.arch.navigation:navigation-ui:1.0.0'
+//    implementation 'androidx.appcompat:appcompat-'
+ //   implementation 'androidx.support:design:27.0.2'
+//    implementation 'com.androidx.support:design:27.0.2'
+
     //   implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.20.0"
 //    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
