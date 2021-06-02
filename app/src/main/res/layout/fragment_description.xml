@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/design_default_color_primary_dark"
+    android:background="@color/design_default_color_surface"
     tools:context=".DescriptionFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="@string/hello_blank_fragment"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/design_default_color_on_secondary"
         android:textSize="20sp" />
 
 </FrameLayout>

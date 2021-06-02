@@ -29,7 +29,7 @@ class HabitFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is MainActivity){
+        if (context is MainActivity) {
             activity = context
         }
     }
@@ -52,29 +52,13 @@ class HabitFragment : Fragment() {
                 if (R.id.radio_useful == radioGroup.checkedRadioButtonId) "Useful" else "Harmful"
             val numberOfRuns = numberOfRuns.text.toString()
             val frequencyOfExecution = frequencyOfExecution.text.toString()
-            //               uid = habit.getUid();
             val habit =
                 Habit(
                     name, description, priority, type,
                     numberOfRuns, frequencyOfExecution
                 )
             activity?.notify(habit)
-//            var recyclerFragment: RecyclerFragment?
-//            recyclerFragment = if (habit.type == "Useful") {
-//                RecyclerFragment.newInstance(true, habit)
-////                activity?.adapter2.
-//            }else{
-//                RecyclerFragment.newInstance(false, habit)
-//            }
-//            recyclerFragment.apply {
-//                arguments = Bundle().apply {
-//                    putParcelable(HABIT_OBJECT, habit)
-//                }
-//            }
-//            requireActivity().onBackPressed()
             activity?.onBackPressed()
-//            val manager: FragmentManager = childFragmentManager
-//            manager
         }
         return view
     }
