@@ -2,45 +2,75 @@ package com.example.android.kotlinhabittracker
 
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.MenuItem
+import android.widget.EditText
+import android.widget.LinearLayout
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetBehavior.*
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_filter.*
+
+const val OFFSCREEN_PAGER_LIMIT_DEFAULT = 2
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
-
-    private var arrayFragments: ArrayList<RecyclerFragment> = arrayListOf()
     private lateinit var drawer: DrawerLayout
     private lateinit var toggle: ActionBarDrawerToggle
-    var fragment: DescriptionFragment? = DescriptionFragment()
-    fun addFragment(fragment: RecyclerFragment) {
-        arrayFragments.add(fragment)
+    private var descriptionFragment: DescriptionFragment? = DescriptionFragment()
+    private var strValue: String? = ""
+    private lateinit var BottomSheetBehavior: BottomSheetBehavior<LinearLayout>
+    private lateinit var layoutBottomSheet: LinearLayout
+
+    fun stateOfBottomSheetHidden() {
+        BottomSheetBehavior.state = STATE_HIDDEN
     }
 
-    fun notify(habit: Habit) {
-        for (item in arrayFragments) {
-            if ((item.arguments?.getBoolean((IS_USEFUL)) == true && habit.type == "Useful")
-                || (item.arguments?.getBoolean((IS_USEFUL)) == false && habit.type == "Harmful")
-            ) {
-                item.update(habit)
-            }
-        }
+    fun stateOfBottomSheetCollapsed() {
+        BottomSheetBehavior.state = STATE_COLLAPSED
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    override fun onCreate(savedInstanceState: Bundle?) {
+    public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        layoutBottomSheet = findViewById(R.id.bottom_sheet_behavior_id)
+        BottomSheetBehavior = from(layoutBottomSheet)
 
-        setSupportActionBar(toolbar as Toolbar?)
+  //      val description = findViewById<EditText>(R.id.description)
+        description.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {
+                strValue = description.text.toString()
+                if (strValue != null) {
+                    val habitFragmentViewModel = HabitFragmentViewModel()
+                    habitFragmentViewModel.notifyName(strValue)
+                }
+            }
+
+            override fun beforeTextChanged(
+                s: CharSequence,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {
+                //Прописываем то, что надо выполнить до изменений
+            }
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                //только что заменены
+            }
+        })
+
+        setSupportActionBar(toolbar)
         supportActionBar?.setTitle(R.string.app_name)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_done_white_24dp)
@@ -69,14 +99,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.nav_screen -> {
-                fragment?.let {
+                descriptionFragment?.let {
                     supportFragmentManager
                         .beginTransaction()
                         .remove(it)
                         .addToBackStack(null)
                         .commit()
                 }
-                viewPager2.offscreenPageLimit = 2
                 viewPager2.adapter
 
                 TabLayoutMediator(
@@ -88,7 +117,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
 
             R.id.nav_info -> {
-                fragment?.let {
+                descriptionFragment?.let {
                     supportFragmentManager
                         .beginTransaction()
                         .add(R.id.container, it)
@@ -110,6 +139,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 }
+
 
 
 

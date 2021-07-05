@@ -37,14 +37,14 @@
             app:layout_constraintHorizontal_bias="0.05"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editName"
-            app:layout_constraintVertical_bias="0.062" />
-
+            app:layout_constraintVertical_bias="0.062"
+            />
         <TextView
             android:id="@+id/priority"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="57dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="2dp"
             android:text="@string/habit_priority"
             android:textSize="20sp"
@@ -66,7 +66,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="54dp"
-            android:layout_marginTop="52dp"
+            android:layout_marginTop="50dp"
             android:layout_marginEnd="2dp"
             android:text="@string/habit_type"
             android:textSize="20sp"
@@ -90,7 +90,7 @@
                 android:id="@+id/radio_useful"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="2dp"
                 android:text="@string/habit_useful"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.566"
@@ -113,7 +113,7 @@
             android:id="@+id/numberOfRuns"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="14dp"
             android:ems="10"
             android:hint="@string/number_runs"
             android:inputType="number"
@@ -125,7 +125,7 @@
             android:id="@+id/frequencyOfExecution"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="13dp"
             android:ems="10"
             android:hint="@string/frequency"
             android:inputType="number"
@@ -137,13 +137,16 @@
             android:id="@+id/button_ready"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="9dp"
             android:layout_marginBottom="10dp"
+            android:background="#FFFFFF"
             android:text="@string/button_ready"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.526"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/frequencyOfExecution" />
+            app:layout_constraintTop_toBottomOf="@+id/frequencyOfExecution"
+            app:layout_constraintVertical_bias="0.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

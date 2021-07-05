@@ -9,7 +9,6 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
  */
 class PagerAdapter2(activity: MainActivity) : FragmentStateAdapter(activity) {
 
-
     override fun getItemCount(): Int = 2
 
     override fun createFragment(position: Int): Fragment = when (position) {

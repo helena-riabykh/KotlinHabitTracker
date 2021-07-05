@@ -10,7 +10,7 @@ import kotlinx.android.parcel.RawValue
  */
 @Parcelize
 data class Habit(
-    var name: String, var description: String, var priority: String, var type: String,
+     var name: String, var description: String, var priority: String, var type: String,
     var numberOfRuns: String, var frequencyOfExecution: String): Parcelable
 {
 
