@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/layoutBottomSheet"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/colorPrimary"
-    android:orientation="vertical"
-    app:behavior_hideable="true"
-    app:behavior_peekHeight="56dp"
-    app:layout_behavior="@string/bottom_sheet_behavior">
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/textTwo"

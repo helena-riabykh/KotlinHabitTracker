@@ -10,7 +10,7 @@ import java.util.ArrayList
 class Model() {
     var habitArrayList: MutableList<Habit> = arrayListOf()
     private val mutableLiveData: MutableLiveData<List<Habit>> = MutableLiveData<List<Habit>>()
-//    var result: MutableList<Habit> = arrayListOf()
+
     companion object {
         private var instance: Model? = null
 
@@ -28,15 +28,13 @@ class Model() {
         mutableLiveData.value = habitArrayList
     }
 
-    fun editingHabit(position: Int, habit: Habit, changeHabitType: Boolean, index: Int) {
+    fun editingHabit(habit: Habit, changeHabitType: Boolean, index: Int) {
         if (!changeHabitType) {
-            //           habitArrayList.removeAt(position)
-            habitArrayList.set(position, habit)
-        } else{
-//            val index = habitArrayList.indexOf(habit)
+            habitArrayList[index] = habit
+        } else {
             habitArrayList.removeAt(index)
-        habitArrayList.add(habit)
-    }
+            habitArrayList.add(habit)
+        }
         mutableLiveData.value = habitArrayList
     }
 
@@ -44,21 +42,21 @@ class Model() {
         return mutableLiveData
     }
 
-    @JvmName("getHabitArrayList1")
-    fun getHabitArrayList(): MutableList<Habit> {
+    fun getHabitArrayList1(): MutableList<Habit> {
         return habitArrayList
     }
 
     fun filterName(name: String?) {
-        var result : MutableList<Habit> = arrayListOf()
-        if (name == null) {
-                result = habitArrayList
-        }else
+        var result: MutableList<Habit> = arrayListOf()
+        if (name == null || name == "") {
+            result = habitArrayList
+        } else
             for (habit in habitArrayList) {
-            if (habit.name == name) {
-                result.add(habit)
+                if (habit.name.contains(name)) {
+                    result.add(habit)
+                }
             }
-        }
         mutableLiveData.value = result
     }
 }
+

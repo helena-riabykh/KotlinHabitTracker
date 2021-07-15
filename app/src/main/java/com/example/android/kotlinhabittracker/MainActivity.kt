@@ -5,13 +5,14 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.MenuItem
-import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.LinearLayout
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.*
@@ -27,9 +28,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var drawer: DrawerLayout
     private lateinit var toggle: ActionBarDrawerToggle
     private var descriptionFragment: DescriptionFragment? = DescriptionFragment()
-    private var strValue: String? = ""
-    private lateinit var BottomSheetBehavior: BottomSheetBehavior<LinearLayout>
-    private lateinit var layoutBottomSheet: LinearLayout
+    private lateinit var BottomSheetBehavior: BottomSheetBehavior<FrameLayout>
+    private lateinit var layoutBottomSheet: FrameLayout
 
     fun stateOfBottomSheetHidden() {
         BottomSheetBehavior.state = STATE_HIDDEN
@@ -43,33 +43,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        layoutBottomSheet = findViewById(R.id.bottom_sheet_behavior_id)
+        layoutBottomSheet = findViewById(R.id.containerBottomSheet)
         BottomSheetBehavior = from(layoutBottomSheet)
 
-  //      val description = findViewById<EditText>(R.id.description)
-        description.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable) {
-                strValue = description.text.toString()
-                if (strValue != null) {
-                    val habitFragmentViewModel = HabitFragmentViewModel()
-                    habitFragmentViewModel.notifyName(strValue)
-                }
-            }
-
-            override fun beforeTextChanged(
-                s: CharSequence,
-                start: Int,
-                count: Int,
-                after: Int
-            ) {
-                //Прописываем то, что надо выполнить до изменений
-            }
-
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                //только что заменены
-            }
-        })
-
+        if (savedInstanceState == null) {
+            val filterFragment = FilterFragment()
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.containerBottomSheet, filterFragment)
+                .commit()
+        }
         setSupportActionBar(toolbar)
         supportActionBar?.setTitle(R.string.app_name)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -77,6 +59,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         viewPager2.offscreenPageLimit = 2
         viewPager2.adapter = PagerAdapter2(this)
+
         TabLayoutMediator(
             pagerTabLayout as TabLayout,
             viewPager2 as ViewPager2

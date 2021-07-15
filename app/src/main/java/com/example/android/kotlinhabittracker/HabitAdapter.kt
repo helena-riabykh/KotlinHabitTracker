@@ -1,7 +1,6 @@
 package com.example.android.kotlinhabittracker
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
@@ -41,6 +40,5 @@ class HabitAdapter(
 
     fun setData(list: ArrayList<Habit>) {
         habitList = list
-        notifyDataSetChanged()
     }
 }
