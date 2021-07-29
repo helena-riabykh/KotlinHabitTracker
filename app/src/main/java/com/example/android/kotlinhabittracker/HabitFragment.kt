@@ -13,6 +13,7 @@ import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import kotlinx.android.synthetic.main.fragment_habit.*
+import kotlin.properties.Delegates
 
 private const val HABIT_EXTRA = "habit"
 private const val POSIT_EXTRA = "0"
@@ -25,14 +26,13 @@ class HabitFragment : Fragment() {
     private lateinit var activity: MainActivity
     private var habitEditable: Habit? = null
     private var positItem = -1
-    private var index = -1
-    private var changeHabitType = false
     private lateinit var editName: EditText
     private lateinit var editDescription: EditText
     private lateinit var numberOfRuns: EditText
     private lateinit var frequencyOfExecution: EditText
     private lateinit var spinner: Spinner
     private lateinit var radioGroup: RadioGroup
+    private var id: Long = 0
 
     companion object {
         @JvmStatic
@@ -67,9 +67,8 @@ class HabitFragment : Fragment() {
             positItem = it.getInt(POSIT_EXTRA)
             habitEditable = it.getParcelable(HABIT_EXTRA)
         }
-        val model = Model.getInstance()
-        index = model.getHabitArrayList1().indexOf(habitEditable)
         if (habitEditable != null) {
+            id = habitEditable?.id!!
             editName.setText(habitEditable!!.name)
             editDescription.setText(habitEditable!!.description)
             numberOfRuns.setText(habitEditable!!.numberOfRuns)
@@ -101,18 +100,13 @@ class HabitFragment : Fragment() {
             val frequencyOfExecution = frequencyOfExecution.text.toString()
             val habit =
                 Habit(
-                    name, description, priority, type,
+                    id, name, description, priority, type,
                     numberOfRuns, frequencyOfExecution
                 )
-            if (habitEditable != null) {
-                if (habitEditable?.type != habit.type) {
-                    changeHabitType = true
-                }
-            }
             val habitFragmentViewModel = ViewModelProvider(requireActivity()).get(
                 HabitFragmentViewModel::class.java
             )
-            habitFragmentViewModel.notify(habit, positItem, changeHabitType, index)
+            habitFragmentViewModel.notify(habit, positItem)
             val inputManager =
                 activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             inputManager.hideSoftInputFromWindow(activity.currentFocus?.windowToken, 0)

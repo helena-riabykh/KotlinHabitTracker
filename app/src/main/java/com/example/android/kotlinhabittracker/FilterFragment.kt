@@ -33,7 +33,11 @@ class FilterFragment() : Fragment() {
             override fun afterTextChanged(s: Editable) {
                 val model = Model.getInstance()
                 strValue = description.text.toString()
-                model.filterName(strValue)
+                if (strValue != "") {
+                    model.filterName(strValue)
+                } else {
+                    model.getMutableLiveData()
+                }
             }
 
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
@@ -49,6 +53,9 @@ class FilterFragment() : Fragment() {
 
     override fun onSaveInstanceState(saveInstanceState: Bundle) {
         super.onSaveInstanceState(saveInstanceState)
-        saveInstanceState.putString(STRING_VALUE, strValue)
+        if (strValue != "") {
+            saveInstanceState.putString(STRING_VALUE, strValue)
+        }
     }
 }
+

@@ -1,15 +1,17 @@
 package com.example.android.kotlinhabittracker
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import java.util.ArrayList
 
 /**
  * Created by Anton on 09.06.2021.
  */
 class Model() {
-    var habitArrayList: MutableList<Habit> = arrayListOf()
+    private var habitArrayList: MutableList<Habit> = arrayListOf()
     private val mutableLiveData: MutableLiveData<List<Habit>> = MutableLiveData<List<Habit>>()
+    var db = App.getInstance().getDatabase()
+    var habitDao = db?.getHabitDao()
 
     companion object {
         private var instance: Model? = null
@@ -24,18 +26,18 @@ class Model() {
     }
 
     fun addHabit(habit: Habit) {
-        habitArrayList.add(habit)
-        mutableLiveData.value = habitArrayList
+        habitDao?.insert(habit)
+        mutableLiveData.value = habitDao?.getAll()
     }
 
-    fun editingHabit(habit: Habit, changeHabitType: Boolean, index: Int) {
-        if (!changeHabitType) {
-            habitArrayList[index] = habit
-        } else {
-            habitArrayList.removeAt(index)
-            habitArrayList.add(habit)
-        }
-        mutableLiveData.value = habitArrayList
+    fun editingHabit(habit: Habit) {
+        habitDao?.update(habit)
+        mutableLiveData.value = habitDao?.getAll()
+    }
+
+    fun getMutableLiveData(): LiveData<List<Habit>> {
+        mutableLiveData.value = habitDao?.getAll()
+        return mutableLiveData
     }
 
     fun getHabitsLiveData(): LiveData<List<Habit>> {
@@ -47,16 +49,7 @@ class Model() {
     }
 
     fun filterName(name: String?) {
-        var result: MutableList<Habit> = arrayListOf()
-        if (name == null || name == "") {
-            result = habitArrayList
-        } else
-            for (habit in habitArrayList) {
-                if (habit.name.contains(name)) {
-                    result.add(habit)
-                }
-            }
-        mutableLiveData.value = result
+        mutableLiveData.value = habitDao?.getAllWithNameLike(name)
     }
 }
 
